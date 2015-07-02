@@ -1,0 +1,27 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: abenamer
+ * Date: 7/2/15
+ * Time: 7:11 PM
+ */
+
+function chartbeat_mostpopular_permission() {
+    return array(
+        'administer my module' => array(
+            'title' => t('Administer my module'),
+            'description' => t('Perform administration tasks for my module.'),
+        ),
+    );
+}
+
+function chartbeat_mostpopular_info()
+{
+    // This example comes from node.module.
+    $blocks['most_popular'] = array(
+        'info' => t('Most Popular Stories'),
+        'cache' => DRUPAL_CACHE_PER_PAGE,
+    );
+}
+    return $blocks;
+}
