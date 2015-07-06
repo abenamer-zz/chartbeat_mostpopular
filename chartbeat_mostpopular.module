@@ -1,11 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: abenamer
- * Date: 7/2/15
- * Time: 7:11 PM
- */
 
+/**
+* Implements hook_permission().
+*/
 function chartbeat_mostpopular_permission() {
     return array(
         'administer my module' => array(
@@ -15,6 +12,9 @@ function chartbeat_mostpopular_permission() {
     );
 }
 
+/**
+* Implements hook_info().
+*/
 function chartbeat_mostpopular_info()
 {
     // This example comes from node.module.
