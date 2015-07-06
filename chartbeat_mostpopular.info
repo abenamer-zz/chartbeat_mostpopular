@@ -1,0 +1,4 @@
+name = Chartbeat Most Popular
+description = Custom module to build the most popular block
+core = 6.x
+package = "Analytics"
