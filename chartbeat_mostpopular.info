@@ -1,4 +1,4 @@
-name = chartbeat_mostpopular
+name = Chartbeat Most Popular
 description = Creates a Most Popular block based on a user's Chartbeat Analytics tool
 core = 7.x
 package = Analytics
