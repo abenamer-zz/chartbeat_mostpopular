@@ -8,25 +8,21 @@ function chartbeat_mostpopular_perm() {
   return array('access chartbeat_mostpopular');
 }
 
-function chartbeat_mostpopular_block($op = 'list', $delta = 0, $edit = array()) {
-    switch ($op) {
-        case 'list':
-            $blocks['most_popular'] = array(
-                'info' => t('Most Popular Stories'),
-                'cache' => BLOCK_CACHE_PER_PAGE,
-            );
-            return $blocks;
-            break;
+function chartbeat_mostpopular_block_info() {
+    $blocks['chartbeat_most_popular'] = array(
+        // info: The name of the block.
+        'info' => t('Chartbeat - Most popular'),
+        // Block caching options (per role, per user, etc.)
+        // DRUPAL_CACHE_PER_ROLE is the default.
+        'cache' => DRUPAL_CACHE_PER_ROLE,
+    );
+    return $blocks;
+}
 
-        case 'view':
-            switch ($delta) {
-                case 'most_popular':
-                    $block = array(
-                        'subject' => t(''),
-                        'content' => chartbeat_mostpopular_show_mostpopular(),
-                    );
-                    break;
-            }
+function chartbeat_mostpopular_block_view($delta='')) {
+    switch($delta) {
+        case 'view' :
+            $block['content'] = chartbeat_mostpopular_show_mostpopular();
             return $block;
             break;
     }
@@ -36,7 +32,7 @@ function chartbeat_mostpopular_block($op = 'list', $delta = 0, $edit = array()) 
  */
 function chartbeat_mostpopular_show_mostpopular() {
     // find the cache and get it
-    $cache_id= 'mostpopular';
+    $cache_id= 'mostpopular';git
     $cached_mostpopular= cache_get($cache_id, 'cache_chartbeat_mostpopular');
 
     // if the cache is not empty, then return the cached content
