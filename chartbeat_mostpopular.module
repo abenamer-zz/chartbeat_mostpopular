@@ -55,7 +55,7 @@ function chartbeat_mostpopular_show_mostpopular() {
         $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$_SERVER[HTTP_HOST]}{$_SERVER[REQUEST_URI]}";
 
         // pull charts from Chartbeat
-        $json=file_get_contents('http://api.chartbeat.com/live/toppages/v3/?apikey=1450f7a7aacfe74d5562caf2e201803a&host=autismspeaks.org&limit=25');
+        $json=file_get_contents('http://api.chartbeat.com/live/toppages/v3/?apikey=31d01e76c7782b47a116b59aa4a00c89&host=benamer.com&limit=25');
         $jsonfeed=json_decode($json,true);
 
         // Set parameters
