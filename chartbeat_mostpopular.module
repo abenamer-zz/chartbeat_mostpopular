@@ -3,6 +3,7 @@
 /**
  * Valid permissions for this module
  * @return array An array of valid permissions for the onthisdate module
+ * test!
  */
 function chartbeat_mostpopular_perm() {
     return array('access chartbeat_mostpopular');
