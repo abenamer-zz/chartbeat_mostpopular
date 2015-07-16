@@ -32,7 +32,7 @@ function chartbeat_mostpopular_block_view($delta='')) {
  */
 function chartbeat_mostpopular_show_mostpopular() {
     // find the cache and get it
-    $cache_id= 'mostpopular';git
+    $cache_id= 'mostpopular';
     $cached_mostpopular= cache_get($cache_id, 'cache_chartbeat_mostpopular');
 
     // if the cache is not empty, then return the cached content
