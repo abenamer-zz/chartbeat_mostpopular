@@ -19,7 +19,7 @@ function chartbeat_mostpopular_block_info() {
     return $blocks;
 }
 
-function chartbeat_mostpopular_block_view($delta='')) {
+function chartbeat_mostpopular_block_view($delta='') {
     switch($delta) {
         case 'view' :
             $block['content'] = chartbeat_mostpopular_show_mostpopular();
