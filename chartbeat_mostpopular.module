@@ -20,13 +20,14 @@ function chartbeat_mostpopular_block_info() {
     return $blocks;
 }
 
-function chartbeat_mostpopular_block_view($delta=0) {
+function chartbeat_mostpopular_block_view($delta='') {
+    $block=array();
     switch($delta) {
         case 0:
             $block['content'] = chartbeat_test();
-            return $block;
             break;
     }
+    return $block;
 }
 
 function chartbeat_test(){
