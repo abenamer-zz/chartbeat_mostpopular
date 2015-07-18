@@ -12,7 +12,7 @@ function chartbeat_mostpopular_perm() {
 function chartbeat_mostpopular_block_info() {
     $blocks['chartbeat_most_popular'] = array(
         // info: The name of the block.
-        'info' => t('Chartbeat - Most popular'),
+        'info' => t('Chartbeat - Most popularTEST'),
         // Block caching options (per role, per user, etc.)
         // DRUPAL_CACHE_PER_ROLE is the default.
         'cache' => DRUPAL_CACHE_PER_ROLE,
@@ -20,14 +20,23 @@ function chartbeat_mostpopular_block_info() {
     return $blocks;
 }
 
-function chartbeat_mostpopular_block_view($delta='') {
+function chartbeat_mostpopular_block_view($delta=0) {
     switch($delta) {
-        case 'view' :
-            $block['content'] = chartbeat_mostpopular_show_mostpopular();
+        case 0:
+            $block['content'] = chartbeat_test();
             return $block;
             break;
     }
 }
+
+function chartbeat_test(){
+
+    $output= "Dude! I'm here";
+    return $output;
+}
+
+
+
 /**
  * @return string - which contains HTML that outputs the Most Popular list for a block
  */
