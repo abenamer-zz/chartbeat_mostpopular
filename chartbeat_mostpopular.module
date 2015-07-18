@@ -21,11 +21,10 @@ function chartbeat_mostpopular_block_info() {
 }
 
 function chartbeat_mostpopular_block_view($delta=0) {
-    dpm('this is a test');
     $block=array();
     switch($delta) {
         case 0:
-            $block['content'] = chartbeat_test();
+            $block['content'] = chartbeat_mostpopular_show_mostpopular();
             break;
     }
     return $block;
