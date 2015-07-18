@@ -15,12 +15,13 @@ function chartbeat_mostpopular_block_info() {
         'info' => t('Chartbeat - Most popularTEST'),
         // Block caching options (per role, per user, etc.)
         // DRUPAL_CACHE_PER_ROLE is the default.
-        'cache' => DRUPAL_CACHE_PER_ROLE,
+        'cache' => DRUPAL_CACHE_PER_ROLE
     );
     return $blocks;
 }
 
-function chartbeat_mostpopular_block_view($delta='') {
+function chartbeat_mostpopular_block_view($delta=0) {
+    dpm('this is a test');
     $block=array();
     switch($delta) {
         case 0:
