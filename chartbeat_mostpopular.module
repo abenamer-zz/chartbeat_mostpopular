@@ -12,7 +12,7 @@ function chartbeat_mostpopular_perm() {
 function chartbeat_mostpopular_block_info() {
     $blocks['chartbeat_most_popular'] = array(
         // info: The name of the block.
-        'info' => t('Chartbeat - Most popularTEST'),
+        'info' => t('Chartbeat - Most popular'),
         // Block caching options (per role, per user, etc.)
         // DRUPAL_CACHE_PER_ROLE is the default.
         'cache' => DRUPAL_CACHE_PER_ROLE
@@ -42,6 +42,7 @@ function chartbeat_test(){
  * @return string - which contains HTML that outputs the Most Popular list for a block
  */
 function chartbeat_mostpopular_show_mostpopular() {
+    dpm("I'm here");
     // find the cache and get it
     $cache_id= 'mostpopular';
     $cached_mostpopular= cache_get($cache_id, 'cache_chartbeat_mostpopular');
@@ -164,7 +165,7 @@ EOT;
             $cache_id = 'mostpopular';
             cache_set($cache_id, $output , 'cache_chartbeat_mostpopular', $in1hourstime);
         }
-
+        dpm("output is".$output);
         return $output;
 
     }
