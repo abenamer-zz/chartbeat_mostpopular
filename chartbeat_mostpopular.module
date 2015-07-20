@@ -132,10 +132,9 @@
 
             $json=drupal_http_request($full_url);
             $jsonfeed=drupal_json_decode($json->data,true);
-            dpm($jsonfeed);
+
             // Set parameters
             $count = count($jsonfeed['pages']);
-            print "count:".$count;
             $limit = 1;
 
             /// start building the HTML divs for the block
@@ -182,15 +181,11 @@ EOT;
                 // take the chartbeat path and format it so that Drupal can recognize it as a local path
                 $drupal_path = parse_url('http://www.' . $urlpath[$i]);
                 $drupal_path = substr($drupal_path['path'],1);
-                print "<pre>";
-                print "drupal_path :" . $drupal_path;
-                print "</pre>";
 
                 // call the function that returns pictures when sent a URL path
                 //list($picture_path, $picture_title, $content_path) = get_picture($drupal_path);
                 list($item_title) = get_title($drupal_path);
                 //$current_image_html=theme('image', $picture_path, $picture_title, $picture_title,'',FALSE);
-                $picture_title='<h3 class="title">' . $item_title.'</h3>';
                 //$href=l($current_image_html . $picture_title,$proposed_url,array('html'=>'true'));
 
                 // <li><a><img><h3 class="title"></h3></a></li>
@@ -215,9 +210,7 @@ EOT;
             }
             $output .= '</ul>';
         }
-        print "<pre>";
-        print $output;
-        print "</pre>";
+
         return $output;
     }
 
