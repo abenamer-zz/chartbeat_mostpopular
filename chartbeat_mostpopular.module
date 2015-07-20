@@ -13,6 +13,7 @@
         $blocks['chartbeat_most_popular'] = array(
             // info: The name of the block.
             'info' => t('Chartbeat - Most popular'),
+
             // Block caching options (per role, per user, etc.)
             // DRUPAL_CACHE_PER_ROLE is the default.
             'cache' => DRUPAL_CACHE_PER_ROLE
@@ -24,6 +25,7 @@
         $block=array();
         switch($delta) {
             case 0:
+                $block['subject'] = t('Most Popular');
                 $block['content'] = chartbeat_mostpopular_show_mostpopular();
                 break;
         }
@@ -135,8 +137,7 @@
             $count = count($jsonfeed['pages']);
             $limit = 1;
 
-            /// start building the HTML divs for the block
-            $output .= '<h2>Most Popular</h2>';
+        /// start building the HTML divs for the block
             $output .= '<ul>';
 
             // get current node
