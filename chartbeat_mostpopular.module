@@ -13,10 +13,6 @@
         $blocks['chartbeat_most_popular'] = array(
             // info: The name of the block.
             'info' => t('Chartbeat - Most popular'),
-
-            // Block caching options (per role, per user, etc.)
-            // DRUPAL_CACHE_PER_ROLE is the default.
-            'cache' => DRUPAL_CACHE_PER_ROLE
         );
         return $blocks;
     }
@@ -32,72 +28,7 @@
         return $block;
     }
 
-    function chartbeat_mostpopular_test(){
-
-        // pull charts from Chartbeat
-        $output="";
-        $url = 'http://api.chartbeat.com/live/toppages/v3';
-        $data = array(
-            'apikey' => '31d01e76c7782b47a116b59aa4a00c89',
-            'host' => 'benamer.com',
-            'limit' => '25'
-        );
-
-        $full_url = url($url, array('query' => $data));
-
-        $json=drupal_http_request($full_url);
-    /*
-        $json= <<<EOT
-        {"pages": [{"path": "benamer.com\/", "stats": {"engaged_visit": {"hist": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0], "avg": 0.0, "median": 1.0}, "engaged_time": {"hist": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "avg": 0.0, "median": 0.0}, "links": 0, "people": 1, "read": 1, "writing_visit": {"hist": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "avg": 0, "median": 0}, "direct": 1, "visits": 1, "recirc": 0, "subscr": 0, "platform": {"m": 0, "d": 1}, "platform_engaged": {"m": 0, "d": 1}, "article": 0, "toprefs": [], "search": 0, "crowd": 0, "domload": {"hist": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "avg": 344.0, "median": 1000.0}, "visit": {"hist": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0], "avg": 0.0, "median": 1.0}, "write": 0, "num_refs": 1, "idle": 0, "internal": 0, "social": 0, "new": 0, "scroll": {"hist": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1], "avg": 4.5, "median": 5.0}}, "title": "Benamer.com | This blog by Allan Benamer is about Drupal and other web technologies. It's written fo"}]}
-    EOT;
-    */
-        $jsonfeed=drupal_json_decode($json->data,true);
-        //$jsonfeed=drupal_json_decode($json,true);
-
-        // Set parameters
-        $count = 4;
-        $limit = 1;
-
-        /// start building the HTML divs for the block
-        $output .= '<h2>Most Popular</h2>';
-        $output .= '<ul>';
-
-        for ($i = 0; $i < $count; $i++) {
-            $urlpath[$i] = $jsonfeed["pages"][$i]["path"];
-            $pagetitle[$i] = $jsonfeed["pages"][$i]["title"];
-
-            // extract the page title (and not the other section and site stuff)
-            $titles=explode("|",$pagetitle[$i]);
-            // convert any possible HTML entities in the page title
-            $current_title=html_entity_decode($titles[0], ENT_QUOTES | ENT_IGNORE, "UTF-8");
-    /*
-            // take the chartbeat path and format it so that Drupal can recognize it as a local path
-            $drupal_path = parse_url('http://www.' . $urlpath[$i]);
-            $drupal_path = substr($drupal_path['path'],1);
-
-            // call the function that returns pictures when sent a URL path
-            list($picture_path, $picture_title, $content_path) = get_picture($drupal_path);
-
-            $current_image_html=theme('image', $picture_path, $picture_title, $picture_title,'',FALSE);
-            $picture_title='<h3 class="title">' . $current_title.'</h3>';
-            $href=l($current_image_html . $picture_title,$proposed_url,array('html'=>'true'));
-
-            // <li><a><img><h3 class="title"></h3></a></li>
-            $style_prefix='<li>';
-            $style_postfix='</li>';
-
-
-        $output .= '</ul>';
-    */
-        }
-
-
-        return $output;
-
-    }
-
     // * @return string - which contains HTML that outputs the Most Popular list for a block
-
     function chartbeat_mostpopular_show_mostpopular() {
 
         // find the cache and get it
@@ -106,113 +37,94 @@
 
         // if the cache is not empty, then return the cached content
 
-        if (isset($cached_mostpopular) && !empty($cached_mostpopular->data)) {
-            dpm("returning cached content");
-            // Return cached HTML
-            $cached_content=$cached_mostpopular->data;
-            return $cached_content;
 
-        } else {
+        // build the output for the cache to get filled again
+        $output='';
 
-            // build the output for the cache to get filled again
-            $output='';
+        // find current URL
+        $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
-            // find current URL
-            $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+        // pull charts from Chartbeat
+        $url = 'http://api.chartbeat.com/live/toppages/v3';
+        $data = array(
+        'apikey' => '31d01e76c7782b47a116b59aa4a00c89',
+        'host' => 'benamer.com',
+        'limit' => '25'
+        );
 
-            // pull charts from Chartbeat
-            $url = 'http://api.chartbeat.com/live/toppages/v3';
-            $data = array(
-            'apikey' => '31d01e76c7782b47a116b59aa4a00c89',
-            'host' => 'benamer.com',
-            'limit' => '25'
-            );
+        $full_url = url($url, array('query' => $data));
 
-            $full_url = url($url, array('query' => $data));
+        $json=drupal_http_request($full_url);
+        $jsonfeed=drupal_json_decode($json->data,true);
 
-            $json=drupal_http_request($full_url);
-            $jsonfeed=drupal_json_decode($json->data,true);
-
-            // Set parameters
-            $count = count($jsonfeed['pages']);
-            $limit = 1;
+        // Set parameters
+        $count = count($jsonfeed['pages']);
+        $limit = 1;
 
         /// start building the HTML divs for the block
-            $output .= '<ul>';
+        $output .= '<ul>';
 
-            // get current node
-            if ($node = menu_get_object()) {
-                // Get the nid
-                $nid = $node->nid;
-            }
-
-            // go through the Chartbeat data and traverse the top 20 most popular items
-            for ($i = 0; $i < $count; $i++) {
-                // $limit regulates the number of items that will be generated by this block
-                if ($limit > 4) {
-                    break;
-                }
-
-                // now that you know the url path and page title
-                $urlpath[$i] = $jsonfeed['pages'][$i]['path'];
-                $pagetitle[$i] = $jsonfeed['pages'][$i]['title'];
-
-                // extract the page title (and not the other section and site stuff)
-                $exploded_title=explode("|",$pagetitle[$i]);
-
-                // convert any possible HTML entities in the page title
-                $current_title=html_entity_decode($exploded_title[0], ENT_QUOTES | ENT_IGNORE, "UTF-8");
-
-                // build  campaign string for Google analytics
-                // this string uses the current page URL as the source and the title of the link it's going to as the content
-                $ga_string = '';
-    //            $utm_source=$_SERVER[REQUEST_URI];
-                $utm_medium="text-link";
-                $utm_content = $current_title;
-                $utm_campaign = "mostpopular";
-                $ga_string = <<<EOT
-?utm_medium=text-link&utm_content=$utm_content&utm_campaign=$utm_campaign
-EOT;
-
-                // this is the url we will attach to every HREF in the link
-                $proposed_url='http://www.' . $urlpath[$i].$ga_string;
-
-                // take the chartbeat path and format it so that Drupal can recognize it as a local path
-                $drupal_path = parse_url('http://www.' . $urlpath[$i]);
-                $drupal_path = substr($drupal_path['path'],1);
-
-                // call the function that returns pictures when sent a URL path
-                //list($picture_path, $picture_title, $content_path) = get_picture($drupal_path);
-                list($item_title) = get_title($drupal_path);
-                //$current_image_html=theme('image', $picture_path, $picture_title, $picture_title,'',FALSE);
-                //$href=l($current_image_html . $picture_title,$proposed_url,array('html'=>'true'));
-
-                // <li><a><img><h3 class="title"></h3></a></li>
-                $style_prefix='<li>';
-                $style_postfix='</li>';
-
-                if ($item_title=='') {
-                    $item_title="Home";
-                }
-
-                // using the proposed URL do checks on it to build the correct link
-                $title='<h3 class="title">' . $item_title.'</h3>';
-                $href=l($title,$proposed_url,array('html'=>'true'));
-                $output .= $style_prefix.$href.$style_postfix;
-
-
-                // if at least one match was found and the user is not logged in, go ahead and cache results
-                /*if (($limit>0) && (!user_is_logged_in())) {
-                    // Cache time is set to one hour ahead
-                    $currentTimestamp = time();
-                    $in1hourstime = strtotime("+1 hours", $currentTimestamp);
-                    $cache_id = 'mostpopular';
-                    cache_set($cache_id, $output , 'cache_chartbeat_mostpopular', $in1hourstime);
-                }
-                */
-            }
-            $output .= '</ul>';
+        // get current node
+        if ($node = menu_get_object()) {
+            // Get the nid
+            $nid = $node->nid;
         }
+
+        // go through the Chartbeat data and traverse the top 20 most popular items
+        for ($i = 0; $i < $count; $i++) {
+            // $limit regulates the number of items that will be generated by this block
+            if ($limit > 4) {
+                break;
+            }
+
+            // now that you know the url path and page title
+            $urlpath[$i] = $jsonfeed['pages'][$i]['path'];
+            $pagetitle[$i] = $jsonfeed['pages'][$i]['title'];
+
+            // extract the page title (and not the other section and site stuff)
+            $exploded_title=explode("|",$pagetitle[$i]);
+
+            // convert any possible HTML entities in the page title
+            $current_title=html_entity_decode($exploded_title[0], ENT_QUOTES | ENT_IGNORE, "UTF-8");
+
+            // build  campaign string for Google analytics
+            // this string uses the current page URL as the source and the title of the link it's going to as the content
+            $ga_string = '';
+            //  $utm_source=$_SERVER[REQUEST_URI];
+            $utm_medium="text-link";
+            $utm_content = $current_title;
+            $utm_campaign = "mostpopular";
+            $ga_string ="?utm_medium=text-link&utm_content=".$utm_content."&utm_campaign=".$utm_campaign;
+
+            // this is the url we will attach to every HREF in the link
+            $proposed_url='http://www.' . $urlpath[$i].$ga_string;
+
+            // take the chartbeat path and format it so that Drupal can recognize it as a local path
+            $drupal_path = parse_url('http://www.' . $urlpath[$i]);
+            $drupal_path = substr($drupal_path['path'],1);
+
+            // call the function that returns pictures when sent a URL path
+            //list($picture_path, $picture_title, $content_path) = get_picture($drupal_path);
+            list($item_title) = get_title($drupal_path);
+            //$current_image_html=theme('image', $picture_path, $picture_title, $picture_title,'',FALSE);
+            //$href=l($current_image_html . $picture_title,$proposed_url,array('html'=>'true'));
+
+            // <li><a><img><h3 class="title"></h3></a></li>
+            $style_prefix='<li>';
+            $style_postfix='</li>';
+
+            if ($item_title=='') {
+                $item_title="Home";
+            }
+
+            // using the proposed URL do checks on it to build the correct link
+            $title='<h3 class="title">' . $item_title.'</h3>';
+            $href=l($title,$proposed_url,array('html'=>'true'));
+            $output .= $style_prefix.$href.$style_postfix;
+
+        }
+        $output .= '</ul>';
+
 
         return $output;
     }
