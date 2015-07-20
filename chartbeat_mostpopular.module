@@ -116,7 +116,7 @@
             $output='';
 
             // find current URL
-            $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$_SERVER[HTTP_HOST]}{$_SERVER[REQUEST_URI]}";
+            $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
             // pull charts from Chartbeat
             $url = 'http://api.chartbeat.com/live/toppages/v3';
@@ -189,6 +189,10 @@ EOT;
                 // <li><a><img><h3 class="title"></h3></a></li>
                 $style_prefix='<li>';
                 $style_postfix='</li>';
+
+                if ($item_title=='') {
+                    $item_title="Home";
+                }
 
                 // using the proposed URL do checks on it to build the correct link
                 $title='<h3 class="title">' . $item_title.'</h3>';
