@@ -63,8 +63,6 @@
         for ($i = 0; $i < $count; $i++) {
             $urlpath[$i] = $jsonfeed["pages"][$i]["path"];
             $pagetitle[$i] = $jsonfeed["pages"][$i]["title"];
-            print $urlpath[$i] . " " . $pagetitle[$i] . "</br>";
-
 
             // extract the page title (and not the other section and site stuff)
             $titles=explode("|",$pagetitle[$i]);
@@ -228,7 +226,6 @@ EOT;
     }
     function get_title($url) {
         $node_path = drupal_lookup_path("source", $url);
-        echo "node path:" . $node_path;
         $node = menu_get_object("node", 1, $node_path);
         $title = $node->title;
         return array(
