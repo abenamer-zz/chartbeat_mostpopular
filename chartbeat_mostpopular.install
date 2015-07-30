@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Implementation of hook_uninstall().
+ * @file
+ * Implementation of hook_uninstall(). Deletes all variables assocated with Chartbeat - Most Popular module.
  */
 function chartbeat_mostpopular_uninstall() {
     variable_del('chartbeat_mostpopular_apikey');

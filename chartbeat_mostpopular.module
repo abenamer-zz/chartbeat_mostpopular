@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Administration, configuration and instantiation of the Chartbeat - Most Popular block
+ */
 
 /**
  * Valid permissions for this module
@@ -127,7 +131,7 @@ function chartbeat_mostpopular_block_info() {
 }
 function chartbeat_mostpopular_block_view($delta='') {
     $block=array();
-    switch($delta) {
+    switch ($delta) {
         case 'chartbeat_most_popular':
             $block['subject'] = t('Most Popular');
             $block['content'] = chartbeat_mostpopular_show_mostpopular();

@@ -1,11 +1,12 @@
 <?php
 
 /**
+ * @file
  * Class Mostpopular_block creates a block of HTML that can be displayed to the user
  * that contains all the most popular items available to Chartbeat
  */
-class Mostpopular_block
-{
+class Mostpopular_block {
+
     protected $list_length;
     protected $api_key;
     protected $hostname;
@@ -19,144 +20,126 @@ class Mostpopular_block
     /**
      * @return mixed
      */
-    public function getCampaignName()
-    {
+    public function getCampaignName() {
         return $this->campaign_name;
     }
 
     /**
      * @param mixed $campaign_name
      */
-    public function setCampaignName($campaign_name)
-    {
+    public function setCampaignName($campaign_name) {
         $this->campaign_name = $campaign_name;
     }
 
     /**
      * @return mixed
      */
-    public function getFrontpageTitle()
-    {
+    public function getFrontpageTitle() {
         return $this->frontpage_title;
     }
 
     /**
      * @param mixed $frontpage_title
      */
-    public function setFrontpageTitle($frontpage_title)
-    {
+    public function setFrontpageTitle($frontpage_title) {
         $this->frontpage_title = $frontpage_title;
     }
 
     /**
      * @return mixed
      */
-    public function getListLength()
-    {
+    public function getListLength() {
         return $this->list_length;
     }
 
     /**
      * @param mixed $list_length
      */
-    public function setListLength($list_length)
-    {
+    public function setListLength($list_length) {
         $this->list_length = $list_length;
     }
 
     /**
      * @return mixed
      */
-    public function getApiKey()
-    {
+    public function getApiKey() {
         return $this->api_key;
     }
 
     /**
      * @param mixed $api_key
      */
-    public function setApiKey($api_key)
-    {
+    public function setApiKey($api_key) {
         $this->api_key = $api_key;
     }
 
     /**
      * @return mixed
      */
-    public function getHostname()
-    {
+    public function getHostname() {
         return $this->hostname;
     }
 
     /**
      * @param mixed $hostname
      */
-    public function setHostname($hostname)
-    {
+    public function setHostname($hostname) {
         $this->hostname = check_url($hostname);
     }
 
     /**
      * @return mixed
      */
-    public function getDebugFlag()
-    {
+    public function getDebugFlag() {
         return $this->debug_flag;
     }
 
     /**
      * @param mixed $debug_flag
      */
-    public function setDebugFlag($debug_flag)
-    {
+    public function setDebugFlag($debug_flag) {
         $this->debug_flag = $debug_flag;
     }
 
     /**
      * @return mixed
      */
-    public function getJson()
-    {
+    public function getJson() {
         return $this->json;
     }
 
     /**
      * @param mixed $json
      */
-    public function setJson($json)
-    {
+    public function setJson($json) {
         $this->json = $json;
     }
 
     /**
      * @return mixed
      */
-    public function getCampaignSource()
-    {
+    public function getCampaignSource() {
         return $this->campaign_source;
     }
 
     /**
      * @param mixed $campaign_source
      */
-    public function setCampaignSource($campaign_source)
-    {
+    public function setCampaignSource($campaign_source) {
         $this->campaign_source = check_plain($campaign_source);
     }
 
     /**
      * @return mixed
      */
-    public function getCampaignMedium()
-    {
+    public function getCampaignMedium() {
         return $this->campaign_medium;
     }
 
     /**
      * @param mixed $campaign_medium
      */
-    public function setCampaignMedium($campaign_medium)
-    {
+    public function setCampaignMedium($campaign_medium) {
         $this->campaign_medium = check_plain($campaign_medium);
     }
 
@@ -165,8 +148,7 @@ class Mostpopular_block
      * this function figures out the context of the block and initializes public properties accordingly.
      * It also checks the Drupal vars to make sure that the block has been properly configured.
      */
-    public function initialize()
-    {
+    public function initialize() {
         $this->setApiKey(variable_get('chartbeat_mostpopular_apikey'));
         $this->setListLength(variable_get('chartbeat_mostpopular_list_length', 3));
         $this->setHostname(variable_get('chartbeat_mostpopular_host'));
@@ -199,8 +181,7 @@ class Mostpopular_block
      * uses block properties to get chartbeat data
      * @return mixed
      */
-    public function retrieve_chartbeat_data()
-    {
+    public function retrieve_chartbeat_data() {
         // pull charts from Chartbeat
         $url = 'http://api.chartbeat.com/live/toppages/v3';
         $data = array(
@@ -213,7 +194,7 @@ class Mostpopular_block
 
         $json = drupal_http_request($full_url);
 
-        $jsonfeed = drupal_json_decode($json->data, true);
+        $jsonfeed = drupal_json_decode($json->data, TRUE);
 
         if ($this->debug_flag) {
             watchdog('chartbeat_mostpopular', '<pre>' . $json->data . '</pre>');
@@ -227,8 +208,7 @@ class Mostpopular_block
      * @param $jsonfeed
      * @return string
      */
-    public function display()
-    {
+    public function display() {
         $jsonfeed = $this->getJson();
 
         $output = "";
@@ -312,15 +292,15 @@ class Mostpopular_block
      * @param $url
      * @return array
      */
-    protected function get_node_title($url)
-    {
+    protected function get_node_title($url) {
         // check to see if the URL passed by Chartbeat is only the home page URL
         $hostname = $this->getHostname() . "/";
         $url = str_replace($hostname, "", $url);
         // drupal_lookup_path doesn't know what to do with a front page URL so it just calls itself home
         if (strlen($url) == 0) {
             $title = $this->getFrontpageTitle();
-        } else {
+        }
+        else {
             $drupal_path = drupal_parse_url($url);
             $url = $drupal_path['path'];
             $node_path = drupal_lookup_path("source", $url);
