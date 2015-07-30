@@ -240,7 +240,7 @@ class Mostpopular_block
 
         if ($this->getDebugFlag()) {
 
-            watchdog('number of items in jsonfeed[pages]', '<pre>' . $limit . '</pre>');
+            watchdog('chartbeat_most_popular: number of items in jsonfeed[pages]', '<pre>' . $limit . '</pre>');
         }
 
         if ($limit == 0) {
@@ -279,15 +279,20 @@ class Mostpopular_block
             // this is the url we will attach to every HREF in the link
             $proposed_url = 'http://www.' . $urlpath[$i] . $ga_string;
 
-            $item_title = $this->get_node_title($urlpath[$i]);
+            $item_title = "";
+            // if the current url being processed is empty don't get the node title
+            if (!empty($urlpath[$i])) {
+                $item_title = $this->get_node_title($urlpath[$i]);
+            }
+
+            // if it's not a node, then we have to fall back on the page title that Chartbeat reported
+            if (empty($item_title)) {
+                $item_title = $pagetitle[$i];
+            }
 
             // <li><a><img><h3 class="title"></h3></a></li>
             $style_prefix = '<li>';
             $style_postfix = '</li>';
-
-            if ($item_title == '') {
-                $item_title = "Home";
-            }
 
             // using the proposed URL do checks on it to build the correct link
             $title = '<h3 class="title">' . $item_title . '</h3>';
@@ -303,7 +308,7 @@ class Mostpopular_block
 
     /**
      * used only by display method so that it can get the proper node titles for items found in Chartbeat
-     *
+     * this only works on items that are nodes -- term pages and user pages don't have titles
      * @param $url
      * @return array
      */
@@ -319,7 +324,9 @@ class Mostpopular_block
             $drupal_path = drupal_parse_url($url);
             $url = $drupal_path['path'];
             $node_path = drupal_lookup_path("source", $url);
+
             $node = menu_get_object("node", 1, $node_path);
+
             $title = $node->title;
         }
         return $title;

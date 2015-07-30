@@ -1,7 +1,9 @@
 # Chartbeat Most Popular
 
 ## Introduction
-This module is designed to be used with Chartbeat. If you do not have a Chartbeat account, it will not work.
+This module is designed to be used with Chartbeat. If you do not have a Chartbeat account, it will not work. Please 
+configure the module first before you enable the Chartbeat - Most Popular block. It needs to be properly configured
+so that it can access the Chartbeat API.
 
 ## Requirements
 You need to get your Chartbeat API key at https://chartbeat.com/apikeys/
@@ -11,13 +13,16 @@ account so you can use that.
 ## Recommended modules
 Chartbeat -- https://www.drupal.org/project/chartbeat
 It is recommended but not required. Be aware that if you use this module without using Chartbeat, you will need to 
-appropriately limit the usage of Chartbeat Javascript to ONLY your publicly accessible nodes. This also means that you
-should not use Chartbeat Javascript on taxonomy term pages as this module only works with nodes.
+appropriately limit the usage of Chartbeat Javascript to ONLY your publicly accessible nodes. While this module tries
+to verify the page title for every URL, it can't do that for URLs that don't belong to nodes. Instead, it will fallback
+on the page title that is recorded at Chartbeat. 
 
 ## Installation
 Install as you would normally install a contributed Drupal module. See:
 https://drupal.org/documentation/install/modules-themes/modules-7
 for further information.
+
+Once the module is installed, please configure it and then place the Chartbeat - Most Popular block.
 
 ## Configuration
 After you enable this module, please go to admin/config/services/chartbeat_mostpopular to configure it.
