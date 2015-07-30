@@ -22,12 +22,12 @@ Install as you would normally install a contributed Drupal module. See:
 https://drupal.org/documentation/install/modules-themes/modules-7
 for further information.
 
-Once the module is installed, please configure it and then place the Chartbeat - Most Popular block.
-
 ## Configuration
 After you enable this module, please go to admin/config/services/chartbeat_mostpopular to configure it.
 
-You will see multiple fields there that you will have to fill in.
+You will see multiple fields there that you will have to fill in. These fields are for configuring the module so that it
+can pull in the list of most popular items from Chartbeat as well as append Google Analytics campaign code to the links
+in the block.
 
 ## Troubleshooting
 ## FAQ

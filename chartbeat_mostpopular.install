@@ -4,8 +4,11 @@
  * Implementation of hook_uninstall().
  */
 function chartbeat_mostpopular_uninstall() {
-    variable_del('chartbeat_mostpopular_list_length');
     variable_del('chartbeat_mostpopular_apikey');
+    variable_del('chartbeat_mostpopular_list_length');
     variable_del('chartbeat_mostpopular_host');
+    variable_del('chartbeat_mostpopular_frontpage_title');
+    variable_del('chartbeat_mostpopular_campaign_name');
     variable_del('chartbeat_mostpopular_debugging');
+    variable_del('chartbeat_mostpopular_campaign_source');
 }
