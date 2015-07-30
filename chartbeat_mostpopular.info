@@ -3,3 +3,4 @@ description = Creates a Most Popular block based on a user's Chartbeat Analytics
 core = 7.x
 version=7/20/15 1:26 AM
 package = Analytics
+configure = admin/config/services/chartbeat_mostpopular
