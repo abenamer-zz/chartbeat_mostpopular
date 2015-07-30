@@ -11,6 +11,23 @@ class Mostpopular_block {
     protected $debug_flag;
     protected $current_url;
     protected $json;
+    protected $frontpage_title;
+
+    /**
+     * @return mixed
+     */
+    public function getFrontpageTitle()
+    {
+        return $this->frontpage_title;
+    }
+
+    /**
+     * @param mixed $frontpage_title
+     */
+    public function setFrontpageTitle($frontpage_title)
+    {
+        $this->frontpage_title = $frontpage_title;
+    }
 
     /**
      * @return mixed
@@ -117,7 +134,7 @@ class Mostpopular_block {
         $this->setListLength(variable_get('chartbeat_mostpopular_list_length',3));
         $this->setHostname(variable_get('chartbeat_mostpopular_host'));
         $this->setDebugFlag(variable_get('chartbeat_mostpopular_debugging'));
-
+        $this->setFrontpageTitle(variable_get('chartbeat_mostpopular_frontpage_title'));
 
         $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{". request_uri() . "}";
 
@@ -136,6 +153,10 @@ class Mostpopular_block {
         if (strlen($this->getHostname()) == 0 ) {
             watchdog("chartbeat_mostpopular_host","Host name is too short --  not properly configured");
             trigger_error("Host name is too short --  not properly configured");
+        }
+        // if the Front Page title is not set - it will use the hostname instead
+        if (strlen($this->getFrontpageTitle()) == 0 ) {
+            $this->setFrontpageTitle($this->getHostname());
         }
     }
 
@@ -165,7 +186,6 @@ class Mostpopular_block {
         $this->setJson($jsonfeed);
     }
 
-
     /**
      * this function creates the HTML for the Chartbeat - Most Popular block
      * @param $jsonfeed
@@ -173,6 +193,11 @@ class Mostpopular_block {
      */
     public function display() {
         $jsonfeed = $this->getJson();
+
+        echo "<pre>";
+        print_r($jsonfeed);
+        echo "</pre>";
+        $output = "";
 
         /// start building the HTML divs for the block
         $output .= '<ul>';
@@ -219,13 +244,7 @@ class Mostpopular_block {
             // this is the url we will attach to every HREF in the link
             $proposed_url='http://www.' . $urlpath[$i].$ga_string;
 
-            // take the chartbeat path and format it so that Drupal can recognize it as a local path
-            $drupal_path = parse_url('http://www.' . $urlpath[$i]);
-            $drupal_path = substr($drupal_path['path'],1);
-
-            // call the function that returns pictures when sent a URL path
-            //list($picture_path, $picture_title, $content_path) = get_picture($drupal_path);
-            list($item_title) = $this->get_current_title($drupal_path);
+            $item_title=$this->get_current_title($urlpath[$i]);
 
             // <li><a><img><h3 class="title"></h3></a></li>
             $style_prefix='<li>';
@@ -249,14 +268,26 @@ class Mostpopular_block {
 
     /**
      * used only by display method so that it can get the proper node titles for items found in Chartbeat
+     *
      * @param $url
      * @return array
      */
     protected function get_current_title($url) {
-        $node_path = drupal_lookup_path("source", $url);
-        $node = menu_get_object("node", 1, $node_path);
-        $title = $node->title;
-        return array($title);
+        // check to see if the URL passed by Chartbeat is only the home page URL
+        $hostname = $this->getHostname() . "/";
+        $url=str_replace($hostname,"",$url);
+        // drupal_lookup_path doesn't know what to do with a front page URL so it just calls itself home
+        if (strlen($url)==0) {
+            $title=$this->getFrontpageTitle();
+        } else {
+            $drupal_path = drupal_parse_url($url);
+            $url=$drupal_path['path'];
+            $node_path = drupal_lookup_path("source", $url);
+            print_r($node_path);
+            $node = menu_get_object("node", 1, $node_path);
+            $title = $node->title;
+        }
+        return $title;
     }
 
     /**

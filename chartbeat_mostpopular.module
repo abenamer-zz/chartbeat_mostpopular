@@ -14,8 +14,6 @@
  */
 require 'class.Mostpopularblock.inc';
 
-
-
 function chartbeat_mostpopular_admin($form, &$form_state) {
     $form = array();
 
@@ -45,6 +43,14 @@ function chartbeat_mostpopular_admin($form, &$form_state) {
         '#size' => 60,
         '#maxlength' => 128,
         '#required' => TRUE,
+    );
+
+    $form['chartbeat_mostpopular_frontpage_title'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Enter the title for your front page'),
+        '#default_value' => variable_get('chartbeat_mostpopular_frontpage_title'),
+        '#size' => 60,
+        '#maxlength' => 128,
     );
 
     $form['chartbeat_mostpopular_debugging'] = array(
@@ -117,10 +123,5 @@ function chartbeat_mostpopular_show_mostpopular() {
 
     $mostpopularblock->retrieve_chartbeat_data();
 
-    $output = $mostpopularblock->display();
-
-    return $output;
+    return $mostpopularblock->display();
 }
-
-
-
