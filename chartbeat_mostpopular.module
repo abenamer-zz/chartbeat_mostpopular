@@ -36,15 +36,6 @@ function chartbeat_mostpopular_admin($form, &$form_state) {
         '#required' => TRUE,
     );
 
-    $form['chartbeat_mostpopular_host'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Enter your host name here'),
-        '#default_value' => variable_get('chartbeat_mostpopular_host'),
-        '#size' => 60,
-        '#maxlength' => 128,
-        '#required' => TRUE,
-    );
-
     $form['chartbeat_mostpopular_frontpage_title'] = array(
         '#type' => 'textfield',
         '#title' => t('Enter the title for your front page'),
@@ -52,6 +43,41 @@ function chartbeat_mostpopular_admin($form, &$form_state) {
         '#size' => 60,
         '#maxlength' => 128,
     );
+
+    $form['chartbeat_mostpopular_host'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Enter your host name here. This will also be used as your Google Analytics source.'),
+        '#default_value' => variable_get('chartbeat_mostpopular_host'),
+        '#size' => 60,
+        '#maxlength' => 128,
+        '#required' => TRUE,
+    );
+
+    $form['chartbeat_mostpopular_campaign_name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Enter the Google Analytics campaign name that will track your Most Popular links. If this is blank, no Google Analytics campaign string will be appended to the links.'),
+        '#default_value' => variable_get('chartbeat_mostpopular_campaign_name'),
+        '#size' => 60,
+        '#maxlength' => 128,
+    );
+
+    $form['chartbeat_mostpopular_campaign_source'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Enter the Google Analytics source name that will track your Most Popular links'),
+        '#default_value' => variable_get('chartbeat_mostpopular_campaign_source'),
+        '#size' => 60,
+        '#maxlength' => 128,
+    );
+
+    $form['chartbeat_mostpopular_campaign_medium'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Enter the Google Analytics medium name that will track your Most Popular links'),
+        '#default_value' => variable_get('chartbeat_mostpopular_campaign_medium'),
+        '#size' => 60,
+        '#maxlength' => 128,
+    );
+
+
 
     $form['chartbeat_mostpopular_debugging'] = array(
 
