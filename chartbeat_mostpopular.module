@@ -1,12 +1,14 @@
 <?php
 /**
  * @file
- * Administration, configuration and instantiation of the Chartbeat - Most Popular block
+ * Administration, configuration and instantiation of the Chartbeat - Most
+ * Popular block
  */
 
 /**
  * Valid permissions for this module
- * @return array An array of valid permissions for the chartbeat_mostpopular module
+ * @return array An array of valid permissions for the chartbeat_mostpopular
+ * module
  */
 
 /**
@@ -18,140 +20,162 @@
  */
 require 'class.Mostpopularblock.inc';
 
+/**
+ * Creates the configuration pages for this module.
+ *
+ * @param object $form
+ *   This is your standard form object.
+ * @param object $form_state
+ *   This is your standard reference to the form_state.
+ *
+ * @return mixed
+ *   system_settings_form($form) is form builder module function.
+ */
 function chartbeat_mostpopular_admin($form, &$form_state) {
-    $form = array();
+  $form = array();
 
-    $form['chartbeat_mostpopular_list_length'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Enter the number of most popular items you want to display. Maximum is 25.'),
-        '#default_value' => variable_get('chartbeat_mostpopular_list_length', 3),
-        '#size' => 4,
-        '#maxlength' => 4,
-        '#required' => TRUE,
+  $form['chartbeat_mostpopular_list_length'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter the number of most popular items you want to display. Maximum is 25.'),
+    '#default_value' => variable_get('chartbeat_mostpopular_list_length', 3),
+    '#size' => 4,
+    '#maxlength' => 4,
+    '#required' => TRUE,
 
-    );
+  );
 
-    $form['chartbeat_mostpopular_apikey'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Enter your Chartbeat API key here'),
-        '#default_value' => variable_get('chartbeat_mostpopular_apikey'),
-        '#size' => 60,
-        '#maxlength' => 128,
-        '#required' => TRUE,
-    );
+  $form['chartbeat_mostpopular_apikey'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter your Chartbeat API key here'),
+    '#default_value' => variable_get('chartbeat_mostpopular_apikey'),
+    '#size' => 60,
+    '#maxlength' => 128,
+    '#required' => TRUE,
+  );
 
-    $form['chartbeat_mostpopular_frontpage_title'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Enter the title for your front page'),
-        '#default_value' => variable_get('chartbeat_mostpopular_frontpage_title'),
-        '#size' => 60,
-        '#maxlength' => 128,
-    );
+  $form['chartbeat_mostpopular_frontpage_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter the title for your front page'),
+    '#default_value' => variable_get('chartbeat_mostpopular_frontpage_title'),
+    '#size' => 60,
+    '#maxlength' => 128,
+  );
 
-    $form['chartbeat_mostpopular_host'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Enter your host name here. This will also be used as your Google Analytics source.'),
-        '#default_value' => variable_get('chartbeat_mostpopular_host'),
-        '#size' => 60,
-        '#maxlength' => 128,
-        '#required' => TRUE,
-    );
+  $form['chartbeat_mostpopular_host'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter your host name here. This will also be used as your Google Analytics source.'),
+    '#default_value' => variable_get('chartbeat_mostpopular_host'),
+    '#size' => 60,
+    '#maxlength' => 128,
+    '#required' => TRUE,
+  );
 
-    $form['chartbeat_mostpopular_campaign_name'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Enter the Google Analytics campaign name that will track your Most Popular links. If this is blank, no Google Analytics campaign string will be appended to the links.'),
-        '#default_value' => variable_get('chartbeat_mostpopular_campaign_name'),
-        '#size' => 60,
-        '#maxlength' => 128,
-    );
+  $form['chartbeat_mostpopular_campaign_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter the Google Analytics campaign name that will track your Most Popular links. If this is blank, no Google Analytics campaign string will be appended to the links.'),
+    '#default_value' => variable_get('chartbeat_mostpopular_campaign_name'),
+    '#size' => 60,
+    '#maxlength' => 128,
+  );
 
-    $form['chartbeat_mostpopular_campaign_source'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Enter the Google Analytics source name that will track your Most Popular links'),
-        '#default_value' => variable_get('chartbeat_mostpopular_campaign_source'),
-        '#size' => 60,
-        '#maxlength' => 128,
-    );
+  $form['chartbeat_mostpopular_campaign_source'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter the Google Analytics source name that will track your Most Popular links'),
+    '#default_value' => variable_get('chartbeat_mostpopular_campaign_source'),
+    '#size' => 60,
+    '#maxlength' => 128,
+  );
 
-    $form['chartbeat_mostpopular_campaign_medium'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Enter the Google Analytics medium name that will track your Most Popular links'),
-        '#default_value' => variable_get('chartbeat_mostpopular_campaign_medium'),
-        '#size' => 60,
-        '#maxlength' => 128,
-    );
+  $form['chartbeat_mostpopular_campaign_medium'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter the Google Analytics medium name that will track your Most Popular links'),
+    '#default_value' => variable_get('chartbeat_mostpopular_campaign_medium'),
+    '#size' => 60,
+    '#maxlength' => 128,
+  );
 
+  $form['chartbeat_mostpopular_debugging'] = array(
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('chartbeat_mostpopular_debugging'),
+    '#title' => t('Send debugging messages to dblog'),
+  );
 
-
-    $form['chartbeat_mostpopular_debugging'] = array(
-
-        '#type' => 'checkbox',
-        '#default_value' => variable_get('chartbeat_mostpopular_debugging'),
-
-        '#title' => t('Send debugging messages to dblog'),
-
-    );
-
-    return system_settings_form($form);
+  return system_settings_form($form);
 }
-
-function chartbeat_mostpopular_menu() {
-
-    $items = array();
-
-    $items['admin/config/services/chartbeat_mostpopular'] = array(
-        'title' => 'Chartbeat - Most Popular settings',
-        'description' => 'Configure Chartbeat - Most Popular here',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('chartbeat_mostpopular_admin'),
-        'access arguments' => array('administer onthisdate settings'),
-        'type' => MENU_NORMAL_ITEM,
-    );
-
-    return $items;
-}
-
-
-
-function chartbeat_mostpopular_permission() {
-    return array(
-        'administer' => array(
-            'title' => t('Administer Chartbeat - Most Popular'),
-            'description' => t('Perform administration tasks for Chartbeat - Most Popular.'),
-        ),
-    );
-}
-
-function chartbeat_mostpopular_block_info() {
-    $blocks['chartbeat_most_popular'] = array(
-        // info: The name of the block.
-        'info' => t('Chartbeat - Most popular'),
-    );
-    return $blocks;
-}
-function chartbeat_mostpopular_block_view($delta='') {
-    $block=array();
-    switch ($delta) {
-        case 'chartbeat_most_popular':
-            $block['subject'] = t('Most Popular');
-            $block['content'] = chartbeat_mostpopular_show_mostpopular();
-            break;
-    }
-    return $block;
-}
-
 
 /**
- * Instantiates the Mostpopular_block and runs its methods
+ * This function creates the page that holds the configuration form.
+ * @return array
+ *   This array returns a bunch thnings so that we can build a configuration
+ *   form.
+ */
+function chartbeat_mostpopular_menu() {
+
+  $items = array();
+  $items['admin/config/services/chartbeat_mostpopular'] = array(
+    'title' => 'Chartbeat - Most Popular settings',
+    'description' => 'Configure Chartbeat - Most Popular here',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('chartbeat_mostpopular_admin'),
+    'access arguments' => array('administer onthisdate settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * This implements hook_permission.
+ *
+ * @return array
+ *   This array sets up the permissions for the module.
+ */
+function chartbeat_mostpopular_permission() {
+  return array(
+    'administer' => array(
+      'title' => t('Administer Chartbeat - Most Popular'),
+      'description' => t('Perform administration tasks for Chartbeat - Most Popular.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ *
+ * This sets up the block.
+ */
+function chartbeat_mostpopular_block_info() {
+  $blocks['chartbeat_most_popular'] = array(
+    // info: The name of the block.
+    'info' => t('Chartbeat - Most popular'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * This creates the block called Most Popular.
+ */
+function chartbeat_mostpopular_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'chartbeat_most_popular':
+      $block['subject'] = t('Most Popular');
+      $block['content'] = chartbeat_mostpopular_show_mostpopular();
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Instantiates the Mostpopular_block and runs its methods.
+ *
  * @return string
+ *   Returns HTML for the block to display.
  */
 function chartbeat_mostpopular_show_mostpopular() {
-
-    $mostpopularblock = new Mostpopular_block();
-
-    $mostpopularblock->initialize();
-
-    $mostpopularblock->retrieve_chartbeat_data();
-
-    return $mostpopularblock->display();
+  $mostpopularblock = new MostPopularBlock();
+  $mostpopularblock->initialize();
+  $mostpopularblock->retrieveChartbeatData();
+  return $mostpopularblock->display();
 }
