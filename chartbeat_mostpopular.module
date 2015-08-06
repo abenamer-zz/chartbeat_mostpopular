@@ -111,7 +111,6 @@ function chartbeat_mostpopular_admin($form, &$form_state) {
  */
 function chartbeat_mostpopular_menu() {
 
-  $items = array();
   $items['admin/config/services/chartbeat_mostpopular'] = array(
     'title' => 'Chartbeat - Most Popular settings',
     'description' => 'Configure Chartbeat - Most Popular here',
@@ -124,7 +123,7 @@ function chartbeat_mostpopular_menu() {
 }
 
 /**
- * This implements hook_permission.
+ * This uses hook_permission().
  *
  * @return array
  *   This array sets up the permissions for the module.

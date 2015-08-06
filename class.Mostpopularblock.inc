@@ -2,11 +2,16 @@
 
 /**
  * @file
- * This class creates a block of HTML.
+ * This class creates a block of HTML that contains the most popular URLs in
+ * your Chartbeat account.
  *
  * It displays the most popular pages found at Chartbeat for this domain.
  */
 
+/**
+ * Class MostPopularBlock
+ * This class represents the block of HTML created by this module.
+ */
 class MostPopularBlock {
 
   protected $listLength;
@@ -354,7 +359,7 @@ class MostPopularBlock {
   /**
    * Used only by display method.
    *
-   * This method retrives proper node titles for items found in Chartbeat. This
+   * This method retrieves proper node titles for items found in Chartbeat. This
    * only works on items that are nodes -- term pages and user pages don't have
    * titles.
    *
