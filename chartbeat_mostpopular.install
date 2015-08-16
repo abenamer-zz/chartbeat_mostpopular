@@ -23,4 +23,6 @@ function chartbeat_mostpopular_uninstall() {
   variable_del('chartbeat_mostpopular_campaign_name');
   variable_del('chartbeat_mostpopular_debugging');
   variable_del('chartbeat_mostpopular_campaign_source');
+  variable_del('chartbeat_mostpopular_campaign_medium');
+
 }
