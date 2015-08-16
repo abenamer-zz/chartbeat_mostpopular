@@ -220,25 +220,25 @@ class MostPopularBlock {
     $this->setDebugFlag(variable_get('chartbeat_mostpopular_debugging'));
     $this->setCampaignSource(variable_get('chartbeat_mostpopular_campaign_source'));
 
-    if (strlen($this->getApiKey()) == 0) {
+    if (drupal_strlen($this->getApiKey()) == 0) {
       watchdog("chartbeat_mostpopular", "API Key too short --
       not properly configured");
       trigger_error('API Key too short -- not properly configured');
     }
 
-    if (strlen($this->getListLength()) == 0) {
+    if (drupal_strlen($this->getListLength()) == 0) {
       watchdog("chartbeat_mostpopular", "Items list is too short --
       not properly configured");
       trigger_error("Items list is too short -- not properly configured");
     }
 
-    if (strlen($this->getHostName()) == 0) {
+    if (drupal_strlen($this->getHostName()) == 0) {
       watchdog("chartbeat_mostpopular_host", "Host name is too short --
         not properly configured");
       trigger_error("Host name is too short --  not properly configured");
     }
     // If the Front Page title is not set, it will use the hostname instead.
-    if (strlen($this->getFrontpageTitle()) == 0) {
+    if (drupal_strlen($this->getFrontpageTitle()) == 0) {
       $this->setFrontpageTitle($this->getHostName());
     }
   }
@@ -316,7 +316,7 @@ class MostPopularBlock {
       $ga_string = '';
 
       // If there is a campaign name go ahead and build the GA link.
-      if (strlen($this->getCampaignName()) > 0) {
+      if (druapal_strlen($this->getCampaignName()) > 0) {
 
         // Build campaign string for Google analytics.
         $utm_source = $this->getCampaignSource();
@@ -374,7 +374,7 @@ class MostPopularBlock {
     $hostname = $this->getHostName() . "/";
     $url = str_replace($hostname, "", $url);
 
-    if (strlen($url) == 0) {
+    if (drupal_strlen($url) == 0) {
       $title = $this->getFrontpageTitle();
     }
     // This is where we load the node to get its title.
