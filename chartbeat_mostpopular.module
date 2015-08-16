@@ -21,6 +21,26 @@
 require 'class.Mostpopularblock.inc';
 
 /**
+ * Implements hook_help().
+ */
+function chartbeat_mostpopular_help($path, $arg) {
+    switch ($path) {
+        case 'admin/config/services/chartbeat_mostpopular':
+            $output = '';
+            $output .= '<p>' . t('') . '</p>';
+            $output .= '<p>' . t('In order to use this module, you need a Chartbeat API key and the domain name for that API key. The domain name used by that API key does not have to be the same as your current website.') . '</p>';
+            $output .= '<p>' . t('Be aware that under certain conditions, the page title returned by Chartbeat is not always the same as the Drupal node title. This module will first look up the Drupal node title and as a fallback w and then whatever title that is returned by Chartbeat. If it detects that the hostname is not the same as the domain youhave chosen,it will disable that internal check.') . '</p>';
+            $output .= '<p>' . t('This module also adds a Google Analytics campaign URL to the end of every link in the block if you specify a Google Analytics campaign name. For more information, please see the <a href="https://support.google.com/analytics/answer/1033867?hl=en">Google Analytics site.</a>') . '</p>';
+            return $output;
+
+        case 'admin/help#chartbeat_mostpopular':
+            $output = file_get_contents(drupal_get_path('module', 'chartbeat_mostpopular') . '/README.md');
+            return module_exists('markdown') ? filter_xss_admin(module_invoke('markdown', 'filter', 'process', 0, -1, $output)) : '<pre>' . check_plain($output) . '</pre>';
+    }
+}
+
+
+/**
  * Creates the configuration pages for this module.
  *
  * @param object $form
