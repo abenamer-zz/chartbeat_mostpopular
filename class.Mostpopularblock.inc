@@ -316,7 +316,7 @@ class MostPopularBlock {
       $ga_string = '';
 
       // If there is a campaign name go ahead and build the GA link.
-      if (druapal_strlen($this->getCampaignName()) > 0) {
+      if (drupal_strlen($this->getCampaignName()) > 0) {
 
         // Build campaign string for Google analytics.
         $utm_source = $this->getCampaignSource();

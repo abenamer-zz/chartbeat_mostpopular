@@ -29,7 +29,7 @@ function chartbeat_mostpopular_help($path, $arg) {
             $output = '';
             $output .= '<p>' . t('') . '</p>';
             $output .= '<p>' . t('In order to use this module, you need a Chartbeat API key and the domain name for that API key. The domain name used by that API key does not have to be the same as your current website.') . '</p>';
-            $output .= '<p>' . t('Be aware that under certain conditions, the page title returned by Chartbeat is not always the same as the Drupal node title. This module will first look up the Drupal node title and as a fallback w and then whatever title that is returned by Chartbeat. If it detects that the hostname is not the same as the domain youhave chosen,it will disable that internal check.') . '</p>';
+            $output .= '<p>' . t('Be aware that under certain conditions, the page title returned by Chartbeat is not always the same as the Drupal node title. This module will first look up the Drupal node title and fallback to whatever title that is returned by Chartbeat. If it detects that the hostname is not the same as the domain you have chosen, it will disable that internal check.') . '</p>';
             $output .= '<p>' . t('This module also adds a Google Analytics campaign URL to the end of every link in the block if you specify a Google Analytics campaign name. For more information, please see the <a href="https://support.google.com/analytics/answer/1033867?hl=en">Google Analytics site.</a>') . '</p>';
             return $output;
 
@@ -78,7 +78,7 @@ function chartbeat_mostpopular_admin($form, &$form_state) {
 
     $form['chartbeat_mostpopular_frontpage_title'] = array(
         '#type' => 'textfield',
-        '#title' => t('Enter the title for your front page'),
+        '#title' => t('Enter the title for your front page. Example: "Home"'),
         '#default_value' => variable_get('chartbeat_mostpopular_frontpage_title'),
         '#size' => 60,
         '#maxlength' => 128,
@@ -86,7 +86,7 @@ function chartbeat_mostpopular_admin($form, &$form_state) {
 
     $form['chartbeat_mostpopular_host'] = array(
         '#type' => 'textfield',
-        '#title' => t('Enter your host name here'),
+        '#title' => t('Enter your host name here.  Example: "benamer.com"'),
         '#default_value' => variable_get('chartbeat_mostpopular_host'),
         '#description' => t('This will also be used as your Google Analytics source.'),
         '#size' => 60,
@@ -96,7 +96,7 @@ function chartbeat_mostpopular_admin($form, &$form_state) {
 
     $form['chartbeat_mostpopular_campaign_name'] = array(
         '#type' => 'textfield',
-        '#title' => t('Enter the Google Analytics campaign name'),
+        '#title' => t('Enter the Google Analytics campaign name. Example: "most-popular"'),
         '#default_value' => variable_get('chartbeat_mostpopular_campaign_name'),
         '#description' => t('If this is blank, no Google Analytics campaign string will be appended to the links. Campaign name that will track your Most Popular links.'),
 
@@ -106,7 +106,7 @@ function chartbeat_mostpopular_admin($form, &$form_state) {
 
     $form['chartbeat_mostpopular_campaign_source'] = array(
         '#type' => 'textfield',
-        '#title' => t('Enter the Google Analytics source name'),
+        '#title' => t('Enter the Google Analytics source name. Example: "text-links"'),
         '#default_value' => variable_get('chartbeat_mostpopular_campaign_source'),
         '#description' => t('Source name that will track your Most Popular links.'),
         '#size' => 60,
@@ -115,7 +115,7 @@ function chartbeat_mostpopular_admin($form, &$form_state) {
 
     $form['chartbeat_mostpopular_campaign_medium'] = array(
         '#type' => 'textfield',
-        '#title' => t('Enter the Google Analytics medium name'),
+        '#title' => t('Enter the Google Analytics medium name. Example: "web"'),
         '#default_value' => variable_get('chartbeat_mostpopular_campaign_medium'),
         '#description' => t('Medium name that will track your Most Popular links.'),
         '#size' => 60,
